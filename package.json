@@ -1,0 +1,36 @@
+{
+  "name": "example-with-unocss",
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
+  },
+  "dependencies": {
+    "@extractus/article-extractor": "^8.0.7",
+    "@extractus/feed-extractor": "^7.1.0",
+    "@solid-primitives/scheduled": "^1.4.3",
+    "@solidjs/router": "^0.13.1",
+    "@solidjs/start": "^1.0.0-rc.0",
+    "daisyui": "^3.9.4",
+    "dayjs": "^1.11.10",
+    "js-md5": "^0.8.3",
+    "solid-js": "^1.8.16",
+    "solid-zustand": "^1.8.0",
+    "unocss-preset-daisy": "^7.0.0",
+    "vinxi": "^0.3.10",
+    "zustand": "^4.5.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.1.64",
+    "@unocss/preset-icons": "0.59.0-beta.1",
+    "@unocss/preset-typography": "0.59.0-beta.1",
+    "@unocss/preset-wind": "0.59.0-beta.1",
+    "@unocss/reset": "^0.58.9",
+    "sass": "^1.74.1",
+    "unocss": "^0.58.9"
+  }
+}
