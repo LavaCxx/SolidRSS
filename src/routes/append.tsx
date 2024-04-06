@@ -1,28 +1,38 @@
 import { createSignal, Switch, Match, Show } from "solid-js";
 import { debounce } from "@solid-primitives/scheduled";
 import AppendItem from "../components/Append/Item";
-
+import getFaviconHref from "../utils/icon";
 import { extract } from '@extractus/feed-extractor'
 export default function AppendPage() {
     const [activeTab, setActiveTab] = createSignal(0);
     const [searchRes, setSearchRes] = createSignal<any[]>([]);
     let searchIuput: HTMLInputElement|undefined
 
-    const getData = async (str: string) => {
+    const fetchFeed = async (str: string) => {
         "use server";
+        const parseURL=new URL(str).origin
+        console.log('parseUrl',parseURL)
         let res
+        let iconRes
         try {
             res =await extract(str,{descriptionMaxLen:0,normalization:false})
+            iconRes=await getFaviconHref(parseURL)
         }catch (e) {
             console.log(e)
         }
+        if(iconRes?.indexOf('/')===0){
+            res.icon=parseURL+iconRes
+        }else{
+            res.icon=iconRes||''
+        }
+        
         return res
     }
 
     const search=debounce(async()=>{
         const value=searchIuput?.value
         if(!value) return 
-        const res=await getData(value)
+        const res=await fetchFeed(value)
         if(res){
             setSearchRes([res])
         }else {

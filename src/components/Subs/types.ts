@@ -1,9 +1,12 @@
 export type SubItem = {
+    id: string;
     type: string;
-    icon?: string;
     title: string;
-    count?: number;
     link?: string;
+    description?: string;
+    content?: string;
     href?: string;
     feedId: string;
+    pubDate?: string;
+    isActive?: boolean;
   };

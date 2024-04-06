@@ -1,7 +1,7 @@
 import "@unocss/reset/tailwind.css"
 import "virtual:uno.css"
 import "~/assets/styles/vars.scss"
-import { onMount } from "solid-js"
+import { onMount,createSignal, Show } from "solid-js"
 
 import { Router, Route } from "@solidjs/router"
 import Home from "./routes/index"
@@ -14,6 +14,7 @@ import { useStore } from "./store"
 
 
 export default function App() {
+  const [isInit,setIsInit]=createSignal(false)
   onMount(async()=>{
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur()
@@ -29,11 +30,16 @@ export default function App() {
     console.log('uuid',uuid)
     
     window.$uuid=uuid
+    setIsInit(true)
   })
   console.log('uuid',uuid)
   return (
-    <Router>
-      <Route path="/" component={Home}>
+    <Show when={isInit()} fallback={<span>Loading</span>}>
+
+ 
+    <Router base="/">
+      <Route path="/" component={Home} >
+        <Route path="/" component={Subscribe} />
         <Route path="subscribe">
           <Route path="/:subId?">
             <Route path="/"  component={Subscribe} />
@@ -48,5 +54,6 @@ export default function App() {
 
 
     </Router>
+    </Show>
   )
 }

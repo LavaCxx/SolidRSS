@@ -21,7 +21,7 @@ export default (props: MenuItem) => {
         
     }
     return (
-        <a onClick={navigate} href={`/subscribe/${props.id}`} class={`w-full grid grid-cols-[20px_auto_40px] text-sm gap-x-1 items-center content-center cursor-pointer text-primary p-1 hover:bg-highlight ${props.isActive?'bg-highlight':''}`}>
+        <a onClick={navigate} href={`/subscribe/${props.id}`} class={`w-full grid grid-cols-[20px_auto_40px] text-sm gap-x-1 items-center rounded content-center cursor-pointer text-primary transition p-1 hover:bg-highlight ${props.isActive?'bg-highlight':''}`}>
             <div class="flex justify-start text-base text-left">
                 <Show when={(props.icon||'').indexOf('i-mdi-') === 0} fallback={<img src={props.icon} />}>
                     <div class={props.icon} />

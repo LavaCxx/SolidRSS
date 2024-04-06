@@ -9,7 +9,6 @@ export default (props)=>{
         const isExists=await window.$uuid.check('feeds',id)
         if(isExists) return
         useStore(state=>state.incFeed({id, ...props}))
-        // window.$db.add({id, ...props})
     }
     const getStatus=async (link:string)=>{
         const id = window.$uuid.create(link)
@@ -27,8 +26,8 @@ export default (props)=>{
     console.log('props',props.image,)
     return (
         <div class="w-full rounded bg-mantle p-2 flex flex-col gap-y-1">
-            <Show when={props.image?.url}>
-            <img class="w-12" src={props.image?.url} alt={props.title} />
+            <Show when={props.icon}>
+            <img class="w-12" src={props.icon} alt={props.title} />
             </Show>
             
             <a href={props.link} target="_blank"><h3 class="font-bold text-primary">{props.title}</h3></a>

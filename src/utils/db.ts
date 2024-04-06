@@ -22,6 +22,7 @@ class feedsDB {
                 if(!this.db.objectStoreNames.contains('feeds')){
                     const store=this.db.createObjectStore('feeds',{keyPath:'id'})
                     store.createIndex('title','title',{unique:false})
+                    store.createIndex('icon','icon',{unique:false})
                     store.createIndex('description','description',{unique:false})
                     store.createIndex('item','item',{unique:false,multiEntry:true})
                     store.createIndex('link','link',{unique:false,multiEntry:true})
@@ -66,9 +67,8 @@ class feedsDB {
                 resolve(req)
             }
         })
-
     }
-    add(storeName="feeds",data:Feed){
+    add(storeName="feeds",data:any){
         return new Promise((resolve,reject)=>{
             const req=this.db.transaction([storeName],'readwrite').objectStore(storeName).add(data)
             req.onsuccess = function (event) {
@@ -79,7 +79,18 @@ class feedsDB {
                 reject(event)
               }
         })
-
+    }
+    update(storeName='feeds',data:any){
+        return new Promise((resolve,reject)=>{
+            const req=this.db.transaction([storeName],'readwrite').objectStore(storeName).put(data)
+            req.onsuccess = function (event) {
+                resolve(event)
+              };
+            
+              req.onerror = function (event) {
+                reject(event)
+              }
+        })
     }
 }
 const db=new feedsDB()

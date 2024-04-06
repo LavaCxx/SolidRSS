@@ -1,4 +1,5 @@
 import { createEffect, createSignal, For, onMount,Show } from "solid-js"
+import Dropdown from "~/components/Dropdown";
 import Item from './Item'
 import { useStore } from "~/store"
 import { useParams } from "@solidjs/router";
@@ -34,8 +35,7 @@ export default () => {
         const res=list.map(v=>(
             {
                 ...v,
-                count:v.item.length,
-                icon:v?.image?.url||''
+                count:v.item.length
             }
         ))
         setFeeds(res)
@@ -59,21 +59,18 @@ export default () => {
                 <div class="flex justify-between items-center text-sm">
                     <h3>订阅源</h3>
                     <div class="flex gap-x-1 text-base">
-                        <div class="dropdown">
-                            <div tabindex="0" role="button" class="i-mdi-plus" />
-                            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><a href="/append">订阅</a></li>
-                                <li><a href="/append">文件夹</a></li>
-                            </ul>
-                        </div>
+                        <Dropdown button={<div class="i-mdi-plus" />}>
+                            <li><a href="/append">订阅</a></li>
+                            <li><a href="/append">文件夹</a></li>
+                        </Dropdown>
                         <div class="i-mdi-dots-horizontal" />
                     </div>
                 </div>
-
+                    <div class="flex flex-col gap-y-1 py-2">
                     <For each={feeds()}>
                         {(item) => <Item {...item} isActive={params.subId===item.id}  />}
                     </For>
-                
+                    </div>
 
             </section>
         </div>
