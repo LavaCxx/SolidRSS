@@ -2,6 +2,7 @@
 import './subscribe.scss'
 import Subs from "~/components/Subs/Subs";
 import { useParams } from "@solidjs/router";
+import { onMount } from 'solid-js'
 export default function SubscribePage(props){
     let container: HTMLElement | undefined
     let resizer: HTMLDivElement | undefined
@@ -13,7 +14,6 @@ export default function SubscribePage(props){
     }
     const dragMove = (e: MouseEvent) => {
         if (!container) return
-        console.log('container',container.offsetLeft)
         let val = e.clientX
         resizeVal = val
         container.style.setProperty(
@@ -25,10 +25,11 @@ export default function SubscribePage(props){
         document.removeEventListener("mousemove", dragMove)
         document.removeEventListener("mouseup", dragOut)
     }
+
     const params = useParams();
     return (
         <main ref={container} id="reader">
-        <section class="bg-blank p-2 h-full overflow-y-auto border-r border-overlay">
+        <section class="bg-blank h-full  border-r border-overlay">
             <Subs subId={params.subId||'all'} />
         </section>
         <div ref={resizer} onMouseDown={dragOn} class="resizer resizer-mid"></div>

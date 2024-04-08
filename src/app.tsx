@@ -11,6 +11,7 @@ import Append from "./routes/append"
 import db from "~/utils/db"
 import uuid from '~/utils/uuid'
 import { useStore } from "./store"
+import bus from "~/utils/bus"
 
 
 export default function App() {
@@ -21,18 +22,21 @@ export default function App() {
   }
     window.$db=db
     await window.$db.init()
+    // console.log('init')
     const feedsRes=await window.$db.read('feeds')
+    console.log('read feeds')
     const postRes=await window.$db.read('posts')
+    console.log('read posts')
     useStore(state=>state.init({
-        feeds:feedsRes.result,
-        posts:postRes.result
+        feeds:feedsRes,
+        posts:postRes
     }))
-    console.log('uuid',uuid)
+    
     
     window.$uuid=uuid
     setIsInit(true)
+    bus.emit('updatePost')
   })
-  console.log('uuid',uuid)
   return (
     <Show when={isInit()} fallback={<span>Loading</span>}>
 

@@ -14,6 +14,9 @@ dependencies:
   '@shikijs/markdown-it':
     specifier: ^1.2.4
     version: 1.2.4
+  '@solid-primitives/event-bus':
+    specifier: ^1.0.11
+    version: 1.0.11(solid-js@1.8.16)
   '@solid-primitives/scheduled':
     specifier: ^1.4.3
     version: 1.4.3(solid-js@1.8.16)
@@ -1376,8 +1379,25 @@ packages:
     engines: {node: '>=18'}
     dev: false
 
+  /@solid-primitives/event-bus@1.0.11(solid-js@1.8.16):
+    resolution: {integrity: sha512-bSwVA4aI2aNHomSbEroUnisMSyDDXJbrw4U8kFEvrcYdlLrJX5i6QeCFx+vj/zdQQw62KAllrEIyWP8KMpPVnQ==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.3(solid-js@1.8.16)
+      solid-js: 1.8.16
+    dev: false
+
   /@solid-primitives/scheduled@1.4.3(solid-js@1.8.16):
     resolution: {integrity: sha512-HfWN5w7b7FEc6VPLBKnnE302h90jsLMuR28Fcf7neRGGf8jBj6wm6/UFQ00VlKexHFMR6KQ2u4VBh5a1ZcqM8g==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      solid-js: 1.8.16
+    dev: false
+
+  /@solid-primitives/utils@6.2.3(solid-js@1.8.16):
+    resolution: {integrity: sha512-CqAwKb2T5Vi72+rhebSsqNZ9o67buYRdEJrIFzRXz3U59QqezuuxPsyzTSVCacwS5Pf109VRsgCJQoxKRoECZQ==}
     peerDependencies:
       solid-js: ^1.6.12
     dependencies:

@@ -1,68 +1,76 @@
-import { createSignal, Switch, Match, Show } from "solid-js";
-import { debounce } from "@solid-primitives/scheduled";
-import AppendItem from "../components/Append/Item";
-import getFaviconHref from "../utils/icon";
+import { createSignal, Switch, Match, Show } from "solid-js"
+import { debounce } from "@solid-primitives/scheduled"
+import AppendItem from "../components/Append/Item"
+import getFaviconHref from "../utils/icon"
 import { extract } from '@extractus/feed-extractor'
 export default function AppendPage() {
-    const [activeTab, setActiveTab] = createSignal(0);
-    const [searchRes, setSearchRes] = createSignal<any[]>([]);
-    let searchIuput: HTMLInputElement|undefined
+    const [activeTab, setActiveTab] = createSignal(0)
+    const [searchRes, setSearchRes] = createSignal<any[]>([])
+    let searchIuput: HTMLInputElement | undefined
 
     const fetchFeed = async (str: string) => {
-        "use server";
-        const parseURL=new URL(str).origin
-        console.log('parseUrl',parseURL)
+        "use server"
         let res
         let iconRes
+        let parseURL = ''
         try {
-            res =await extract(str,{descriptionMaxLen:0,normalization:false})
-            iconRes=await getFaviconHref(parseURL)
-        }catch (e) {
+            res = await extract(str, {
+                descriptionMaxLen: 0, normalization: false, xmlParserOptions: {
+                    tagValueProcessor: (tagName, tagValue) => {
+                        if (tagName === 'link') return tagValue.replace(/&/g, '&amp;')
+                        return tagValue
+                    }
+                }
+            })
+            console.log('res',res.link)
+            parseURL= new URL(res.link).origin
+        iconRes = await getFaviconHref(parseURL)
+        } catch (e) {
             console.log(e)
         }
-        if(iconRes?.indexOf('/')===0){
-            res.icon=parseURL+iconRes
-        }else{
-            res.icon=iconRes||''
+        if (iconRes?.indexOf('/') === 0) {
+            res.icon = parseURL + iconRes
+        } else {
+            res.icon = iconRes || ''
         }
-        
+        // console.log('item', res)
         return res
     }
 
-    const search=debounce(async()=>{
-        const value=searchIuput?.value
-        if(!value) return 
-        const res=await fetchFeed(value)
-        if(res){
+    const search = debounce(async () => {
+        const value = searchIuput?.value
+        if (!value) return
+        const res = await fetchFeed(value)
+        if (res) {
             setSearchRes([res])
-        }else {
+        } else {
             setSearchRes([])
         }
-    },250)
+    }, 250)
     return (<div class="p-4 bg-blank h-full">
         <div role="tablist" class="tabs tabs-lifted">
-            <a role="tab" onClick={()=>setActiveTab(0)}  class="tab">RSS地址</a>
-            <a role="tab" onClick={()=>setActiveTab(1)} class="tab tab-active">RSSHub</a>
+            <a role="tab" onClick={() => setActiveTab(0)} class="tab">RSS地址</a>
+            <a role="tab" onClick={() => setActiveTab(1)} class="tab tab-active">RSSHub</a>
         </div>
         <div class="">
-        <Switch fallback={<div>Not Found</div>}>
-            <Match when={activeTab() === 0}>
-                <>
-                <label class="input input-bordered flex items-center gap-2">
-                    <input ref={searchIuput} type="text" class="grow" placeholder="Search" onKeyUp={search} />
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
-                </label>
-                <div class="mt-5">
-                    <Show when={searchRes().length} fallback={<div>Not Found</div>}>
-                    <AppendItem {...searchRes()[0]} />
-                    </Show>
-                    
-                </div>
-                </>
-            </Match>
-            <Match when={activeTab() === 1}>
-                <></>
-            </Match>
+            <Switch fallback={<div>Not Found</div>}>
+                <Match when={activeTab() === 0}>
+                    <>
+                        <label class="input input-bordered flex items-center gap-2">
+                            <input ref={searchIuput} type="text" class="grow" placeholder="Search" onKeyUp={search} />
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
+                        </label>
+                        <div class="mt-5">
+                            <Show when={searchRes().length} fallback={<div>Not Found</div>}>
+                                <AppendItem {...searchRes()[0]} />
+                            </Show>
+
+                        </div>
+                    </>
+                </Match>
+                <Match when={activeTab() === 1}>
+                    <></>
+                </Match>
             </Switch>
         </div>
     </div>)

@@ -6,7 +6,10 @@ export type SubItem = {
     description?: string;
     content?: string;
     href?: string;
-    feedId: string;
     pubDate?: string;
-    isActive?: boolean;
+
+    isRead:false,
+    isLater:false,
+  feedId: string;
+  isActive?: boolean;
   };

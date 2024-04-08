@@ -1,0 +1,15 @@
+.subscribe-item{
+    .status-unread{
+        position: relative;
+        &::before{
+            content:'';
+            position: absolute;
+            top:0.5rem;
+            left:-0.75rem;
+            height: 6px;
+            width: 6px;
+            border-radius: 100%;
+            background-color: var(--color-green);
+        }
+    }
+}

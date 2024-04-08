@@ -1,6 +1,5 @@
 import { Show } from "solid-js"
 import type { MenuItem } from './types'
-import {useStore} from "~/store"
 
 export default (props: MenuItem) => {
     const showCount = (count: number | undefined) => {
@@ -12,8 +11,6 @@ export default (props: MenuItem) => {
         }
     }
     const navigate = (e)=>{
-       
-        useStore.setState({currentFeed:props})
         if(props.click){
             e.preventDefault()
             props.click()
@@ -32,7 +29,7 @@ export default (props: MenuItem) => {
             </div>
             <div class="text-secondary text-xs text-right whitespace-nowrap">
                 <Show when={Reflect.has(props, 'count')}>
-                    <p>{showCount(props.count) || 0}</p>
+                    <p>{props.count || 0}</p>
                 </Show>
             </div>
         </a>

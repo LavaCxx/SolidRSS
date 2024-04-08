@@ -1,14 +1,19 @@
 import { useStore } from '~/store';
 import {useNavigate} from '@solidjs/router'
 import { onMount,createSignal,Show } from 'solid-js';
-export default (props)=>{
+export default (props:any)=>{
     const navigate = useNavigate();
     const [isExists, setIsExists] = createSignal(false);
     const append = async() => {
         const id = window.$uuid.create(props.link)
         const isExists=await window.$uuid.check('feeds',id)
         if(isExists) return
-        useStore(state=>state.incFeed({id, ...props}))
+        let {item,...pureFeed}=props
+        useStore(state=>state.incFeed({id, ...pureFeed,unread:item.length}))
+        item=item.map((v:any)=>{
+            return {...v,feedId:id,isRead:false,isLater:false,id:window.$uuid.create(v.link),content:v['content:encoded']||''}
+        })
+        useStore(state=>state.incPost(item))
     }
     const getStatus=async (link:string)=>{
         const id = window.$uuid.create(link)
@@ -23,7 +28,6 @@ export default (props)=>{
     onMount(()=>{
         getStatus(props.link)
     })
-    console.log('props',props.image,)
     return (
         <div class="w-full rounded bg-mantle p-2 flex flex-col gap-y-1">
             <Show when={props.icon}>
