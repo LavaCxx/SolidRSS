@@ -53,7 +53,8 @@ export default defineConfig({
       overlay: 'var(--color-overlay)',
       highlight: 'var(--color-bg-highlight)',
       primary: 'var(--color-text-primary)',
-      secondary: 'var(--color-text-secondary)'
+      secondary: 'var(--color-text-secondary)',
+      warning: 'var(--color-warning)',
     }
   }
 });

@@ -18,8 +18,8 @@ export default (props: MenuItem) => {
         
     }
     return (
-        <a onClick={navigate} href={`/subscribe/${props.id}`} class={`w-full grid grid-cols-[20px_auto_40px] text-sm gap-x-1 items-center rounded content-center cursor-pointer text-primary transition p-1 hover:bg-highlight ${props.isActive?'bg-highlight':''}`}>
-            <div class="flex justify-start text-base text-left">
+        <a onClick={navigate} href={`/feed/${props.id}`} class={`w-full grid grid-cols-[25px_auto_40px] text-base gap-x-1 items-center rounded content-center cursor-pointer text-primary transition p-2 hover:bg-highlight ${props.isActive?'bg-highlight':''}`}>
+            <div class="flex justify-start text-left">
                 <Show when={(props.icon||'').indexOf('i-mdi-') === 0} fallback={<img src={props.icon} />}>
                     <div class={props.icon} />
                 </Show>
@@ -27,7 +27,7 @@ export default (props: MenuItem) => {
             <div class="w-full overflow-hidden whitespace-nowrap">
                 <p  class=" overflow-hidden text-ellipsis" title={props.title}>{props.title || 'test'}</p>
             </div>
-            <div class="text-secondary text-xs text-right whitespace-nowrap">
+            <div class="text-secondary text-sm text-right whitespace-nowrap">
                 <Show when={Reflect.has(props, 'count')}>
                     <p>{props.count || 0}</p>
                 </Show>

@@ -1,9 +1,11 @@
 :root {
     --color-green: #40a02b;
+    --color-red: #d20f39;
 
     --color-base: #eff1f5;
     --color-mantle: #e6e9ef;
     --color-curst: #dce0e8;
+    --color-warning: var(--color-red);
     --color-overlay:#8c8fa1;
     --color-text-primary: #4c4f69;
     --color-text-secondary: #5c5f77;

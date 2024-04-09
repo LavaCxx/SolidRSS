@@ -11,7 +11,7 @@ export default (props:any)=>{
         let {item,...pureFeed}=props
         useStore(state=>state.incFeed({id, ...pureFeed,unread:item.length}))
         item=item.map((v:any)=>{
-            return {...v,feedId:id,isRead:false,isLater:false,id:window.$uuid.create(v.link),content:v['content:encoded']||''}
+            return {...v,feedId:id,isRead:false,isLater:false,id:window.$uuid.create(v.link),content:v['content:encoded']||'',feedSource:{name:props.title,link:props.link}}
         })
         useStore(state=>state.incPost(item))
     }

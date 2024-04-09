@@ -31,8 +31,6 @@ export default function PostPage() {
         if (!id) return
         let res={}
         let post = state().posts.find(v => v.id === id)
-
-        console.log('post', state().posts,post,id)
         if (!post){
             setFailMsg('文章获取失败，请稍后重试')
             setTimeout(()=>{
@@ -52,10 +50,6 @@ export default function PostPage() {
             }else{
                 res.content = res?.content || ''
             }
-            // useStore(state => state.updatePost({ ...res,...post,isRead:true }))
-            // setArticle(res)
-            // setIsLoading(false)
-            // return
         }
         useStore(state => state.updatePost({...post,isRead:true }))
         // useStore(state=>state.decRead(id))
@@ -70,7 +64,7 @@ export default function PostPage() {
         getArticle(id)
     ),{defer:false}))
     const loadingContent = () => {
-        return (<div class="w-full h-dvh flex justify-center items-center">
+        return (<div class="w-full h-full flex justify-center items-center">
             <span class="loading loading-infinity loading-lg"></span>
         </div>)
     }

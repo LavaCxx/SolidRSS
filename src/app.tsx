@@ -5,6 +5,7 @@ import { onMount,createSignal, Show } from "solid-js"
 
 import { Router, Route } from "@solidjs/router"
 import Home from "./routes/index"
+import Feed from "./routes/feed"
 import Subscribe from "./routes/subscribe/index"
 import Post from "./routes/post"
 import Append from "./routes/append"
@@ -43,7 +44,13 @@ export default function App() {
  
     <Router base="/">
       <Route path="/" component={Home} >
-        <Route path="/" component={Subscribe} />
+        <Route path='/' component={Feed} />
+        <Route path='/feed' >
+          <Route path="/:feedId" component={Feed} />
+        </Route>
+        <Route path='/later' component={Feed} />
+
+        {/* <Route path="/" component={Subscribe} />
         <Route path="subscribe">
           <Route path="/:subId?">
             <Route path="/"  component={Subscribe} />
@@ -52,7 +59,7 @@ export default function App() {
               <Route path="/:postId" component={Post} />
             </Route>
           </Route>
-        </Route>
+        </Route> */}
         <Route path="/append" component={Append} />
       </Route>
 

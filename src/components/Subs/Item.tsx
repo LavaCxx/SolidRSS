@@ -11,7 +11,6 @@ export default (props: SubItem) => {
     const getBanner = () => {
         const description= props.description as string
         let res = description.match(bannerReg)
-        
         return res?.[0]
     }
     const getPureDescription = (desc:string='') => {

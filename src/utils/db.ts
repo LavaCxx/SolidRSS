@@ -35,7 +35,7 @@ class feedsDB {
                     store.createIndex('feedId','feedId',{unique:false})
                     store.createIndex('title','title',{unique:false})
                     store.createIndex('description','description',{unique:false})
-                    // store.createIndex('content:encoded','content',{unique:false})
+                    
                     store.createIndex('content','content',{unique:false})
                     store.createIndex('favicon','favicon',{unique:false})
                     store.createIndex('links','links',{unique:false,multiEntry:true})
@@ -46,6 +46,8 @@ class feedsDB {
                     store.createIndex('url','url',{unique:false})
                     store.createIndex('isRead','isRead',{unique:false})
                     store.createIndex('isLater','isLater',{unique:false})
+                    store.createIndex('feedSource.name','feedSource.name',{unique:false})
+                    store.createIndex('feedSource.link','feedSource.link',{unique:false})
                 }   
                 
             }

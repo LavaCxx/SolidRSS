@@ -10,10 +10,11 @@ import bus from '~/utils/bus'
 type CountObj = {
     [key: string]: number
 }
-
+import { useLocation } from "@solidjs/router";
 export default () => {
     const state=useStore()
     const navigate = useNavigate()
+    const location = useLocation();
     const params = useParams();
     const [menu, setMenu] = createSignal<MenuItem[]>([
         {
@@ -21,17 +22,18 @@ export default () => {
             icon: 'i-mdi-format-list-bulleted',
             title: '全部文章',
             count: 0,
+            link:'/',
             click: () => {
-                
-                navigate('/subscribe/all')
+                navigate('/')
             }
         },
         {
             type: 'button',
             icon: 'i-mdi-clock-plus-outline',
             title: '稍后阅读',
+            link:'/later',
             click: () => {
-                navigate('/subscribe/later')
+                navigate('/later')
             }
         }
     ],{equals:false})
@@ -40,7 +42,6 @@ export default () => {
     const updateFeeds = async () => {
         const feeds = state().feeds
         const posts=state().posts
-        console.log('posts',posts)
         let total=0
         const countObj:CountObj={}
         posts.forEach(v=>{
@@ -50,7 +51,6 @@ export default () => {
                 total++
             }
         })
-        console.log('countObj',countObj,total)
         // const list = await window.$db.read('feeds')
         const res=feeds.map((v:any)=>(
             {
@@ -70,12 +70,11 @@ export default () => {
             newAll.count=total
             return [{...newAll},prev[1]]
         })
-        console.log('menus',menu())
     }
 
-    // onMount( async ()=>{
-    //     updateFeeds(state().feeds)
-    // })
+    onMount( async ()=>{
+        updateFeeds(params.postId)
+    })
     // createEffect(()=>{
     //     updateFeeds(state().feeds)
     // })
@@ -87,7 +86,7 @@ export default () => {
             </header>
             <section>
                 <For each={menu()}>
-                    {(item) => <Item {...item} />}
+                    {(item) => <Item {...item} isActive={location.pathname===item.link} />}
                 </For>
             </section>
             <section>
@@ -103,7 +102,7 @@ export default () => {
                 </div>
                     <div class="flex flex-col gap-y-1 py-2">
                     <For each={feeds()}>
-                        {(item) => <Item {...item} isActive={params.subId===item.id}  />}
+                        {(item) => <Item {...item} isActive={params.feedId===item.id}  />}
                     </For>
                     </div>
 

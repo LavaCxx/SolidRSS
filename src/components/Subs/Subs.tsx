@@ -52,8 +52,8 @@ export default (props:any)=>{
                     <div class="i-mdi-check-all"></div>
                     <Show when={params.subId&&params.subId!=='all'}>
                     <Dropdown button={<div class="i-mdi-dots-horizontal" />}>
-                            <li class="flex flex-row items-center"><div class="i-mdi-refresh" /><a>刷新</a></li>
-                            <li class="flex flex-row items-center" onClick={deleteFeed}><div class="i-mdi-delete-outline" /><a>删除</a></li>
+                            <li class="flex flex-row items-center"><a class="flex-1"><div class="i-mdi-refresh" />刷新</a></li>
+                            <li class="flex flex-row items-center" onClick={deleteFeed}><a class="flex-1"><div class="i-mdi-delete-outline" />删除</a></li>
                     </Dropdown>
                     </Show>
                 </div>
