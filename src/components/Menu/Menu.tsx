@@ -109,7 +109,7 @@ export default () => {
                     <div class="flex gap-x-1 text-base">
                         <Dropdown button={<div class="i-mdi-plus" />}>
                             <li><a href="/append">订阅</a></li>
-                            <li onClick={()=>{folderRef?.showModal()}}>文件夹</li>
+                            {/* <li onClick={()=>{folderRef?.showModal()}}>文件夹</li> */}
                         </Dropdown>
                         <div class="i-mdi-dots-horizontal" />
                     </div>
