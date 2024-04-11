@@ -6,14 +6,14 @@ import { onMount,createSignal, Show } from "solid-js"
 import { Router, Route } from "@solidjs/router"
 import Home from "./routes/index"
 import Feed from "./routes/feed"
-import Subscribe from "./routes/subscribe/index"
-import Post from "./routes/post"
+import {useModal} from "./utils/modal"
 import Append from "./routes/append"
 import db from "~/utils/db"
 import uuid from '~/utils/uuid'
 import { useStore } from "./store"
 import bus from "~/utils/bus"
 
+// import {render} from 'solid-js/web'
 
 export default function App() {
   const [isInit,setIsInit]=createSignal(false)
@@ -37,6 +37,9 @@ export default function App() {
     window.$uuid=uuid
     setIsInit(true)
     bus.emit('updatePost')
+    // useModal({title:'你好',content:<span>12312321</span>}).then(()=>{
+    //   console.log('then')
+    // })
   })
   return (
     <Show when={isInit()} fallback={<span>Loading</span>}>

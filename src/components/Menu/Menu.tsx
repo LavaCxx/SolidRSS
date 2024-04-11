@@ -5,6 +5,7 @@ import { useStore } from "~/store"
 import { useParams } from "@solidjs/router";
 import { useNavigate } from "@solidjs/router"
 import type { MenuItem } from './types'
+import FolderModal from "./FolderModal";
 import bus from '~/utils/bus'
 
 type CountObj = {
@@ -12,6 +13,7 @@ type CountObj = {
 }
 import { useLocation } from "@solidjs/router";
 export default () => {
+    let folderRef:HTMLElement|undefined
     const state=useStore()
     const navigate = useNavigate()
     const location = useLocation();
@@ -39,10 +41,17 @@ export default () => {
     ],{equals:false})
     const [feeds, setFeeds] = createSignal<MenuItem[]>([])
 
+    const confirmFolder=(data)=>{
+        const id = window.$uuid.create(data)
+        useStore(state=>state.incFeed({id,type:'folder',title:data}))
+        folderRef.close()
+    }
+
     const updateFeeds = async () => {
         const feeds = state().feeds
         const posts=state().posts
         let total=0
+        let laterNum=0
         const countObj:CountObj={}
         posts.forEach(v=>{
             if(!v.isRead){
@@ -50,6 +59,7 @@ export default () => {
                 countObj[v.feedId]+=1
                 total++
             }
+            if(v.isLater) laterNum++
         })
         // const list = await window.$db.read('feeds')
         const res=feeds.map((v:any)=>(
@@ -59,16 +69,20 @@ export default () => {
             }
         ))
         setFeeds(res)
-        updateMenu(total)
+        updateMenu(total,laterNum)
     }
     bus.on('updatePost',()=>{
         updateFeeds()
     })
-    const updateMenu=(total:number)=>{
+    bus.on('updateFeed',()=>{
+        updateFeeds()
+    })
+    const updateMenu=(total:number,laterNum:number)=>{
         setMenu((prev)=>{
-            const newAll=prev[0]
-            newAll.count=total
-            return [{...newAll},prev[1]]
+            const [m1,m2]=prev
+            m1.count=total
+            m2.count=laterNum
+            return [{...m1},{...m2}]
         })
     }
 
@@ -95,7 +109,7 @@ export default () => {
                     <div class="flex gap-x-1 text-base">
                         <Dropdown button={<div class="i-mdi-plus" />}>
                             <li><a href="/append">订阅</a></li>
-                            <li><a href="/append">文件夹</a></li>
+                            <li onClick={()=>{folderRef?.showModal()}}>文件夹</li>
                         </Dropdown>
                         <div class="i-mdi-dots-horizontal" />
                     </div>
@@ -105,8 +119,8 @@ export default () => {
                         {(item) => <Item {...item} isActive={params.feedId===item.id}  />}
                     </For>
                     </div>
-
             </section>
+            <FolderModal ref={folderRef} onConfirm={confirmFolder} />
         </div>
     )
 }

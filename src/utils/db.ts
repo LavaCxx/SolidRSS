@@ -1,5 +1,4 @@
-import { resolve } from 'vinxi/.'
-import bus from './bus'
+
 interface Feed {
     title:string
     description:string
@@ -27,8 +26,11 @@ class feedsDB {
                     store.createIndex('icon','icon',{unique:false})
                     store.createIndex('description','description',{unique:false})
                     store.createIndex('unread','unread',{unique:false})
-                    store.createIndex('link','link',{unique:false,multiEntry:true})
+                    store.createIndex('link','link',{unique:false})
                     store.createIndex('image.url','image.url',{unique:true})
+                    store.createIndex('type','type',{unique:true})
+                    store.createIndex('subFeeds','subFeeds',{unique:false,multiEntry:true})
+
                 }   
                 if(!this.db.objectStoreNames.contains('posts')){
                     const store=this.db.createObjectStore('posts',{keyPath:'id'})

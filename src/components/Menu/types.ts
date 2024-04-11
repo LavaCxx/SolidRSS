@@ -8,4 +8,5 @@ export type MenuItem = {
     href?: string;
     click?: () => void;
     isActive?: boolean;
+    subFeeds?: MenuItem[]
   };

@@ -125,7 +125,7 @@ export default function PostPage(props) {
     return (
         <dialog ref={props.ref} class="modal">
 
-            <div class="modal-box max-w-256 max-h-[98vh] rounded p-0  relative overflow-hidden h-full">
+            <div class="modal-box max-w-220 max-h-[98vh] rounded p-0  relative overflow-hidden h-full">
                 <header class="absolute w-full top-0 left-0 h-12 border-b-1 border-overlay flex items-center px-24 bg-blank justify-between">
                     <h2 class="font-bold text-xl text-primary">{article().title}</h2>
                     <div class={`text-2xl text-secondary ${article().isLater ? 'i-mdi-bookmark' : 'i-mdi-bookmark-outline'}`} onClick={toggleLaterMark} />

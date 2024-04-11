@@ -30,11 +30,13 @@ export const useStore = createWithSignal<FeedStore>((set) => ({
             for(let i=0;i<data.length;i++){
                 await window.$db.add('feeds',data[i])
             }
-            return set(state=>({feeds:[...state.feeds,[...data]]}))
+            set(state=>({feeds:[...state.feeds,[...data]]}))
         }else{
             await window.$db.add('feeds',data)
-            return set(state=>({feeds:[...state.feeds,data]}))
+            
+            set(state=>({feeds:[...state.feeds,data]}))
         }
+        bus.emit('updateFeed')
         
       
     },
